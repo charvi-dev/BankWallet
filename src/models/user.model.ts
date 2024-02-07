@@ -1,5 +1,5 @@
 import { Model, DataTypes, Sequelize, CreateOptions } from 'sequelize';
-
+import { DB_DATABASE, DB_DIALECT, DB_HOST, DB_PASSWORD, DB_USERNAME, LOGGING } from "../config/config";
 interface UserAttributes {
   userid: number;
   pin: string;
@@ -28,13 +28,13 @@ class User extends Model<UserAttributes, UserCreateAttributes> {
   }
 }
 
-const sequelize = new Sequelize({
-  username: "postgres",
-  password: "Asdf!234",
-  database: "BANK_USER",
-  host: "localhost",
-  dialect: "postgres",
+ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
+  host: DB_HOST,
+  dialect: DB_DIALECT,
+  logging: LOGGING
 });
+
+
 
 User.init({
   userid: {

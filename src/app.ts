@@ -10,12 +10,12 @@ class Server {
     this.setup();
   }
 
-  private setup(): void {
+  setup(): void {
     this.app.use(express.json());
     this.app.use('/api/v1', routes.router);
   }
 
-  public start(port: number): void {
+   start(port: number): void {
     this.app.listen(port, () => {
       console.log(`Server started on port ${port}`);
     });
