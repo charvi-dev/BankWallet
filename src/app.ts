@@ -1,14 +1,27 @@
-import express from 'express';
-import connect from './db/Connection';
-import {router as userRouter} from './route/user.route';
+import "dotenv/config";
+import express, { Express } from 'express';
+import { routes } from './route/user.route';
 
-const app = express();
+class Server {
+  private app: Express;
 
-connect(); 
+  constructor() {
+    this.app = express();
+    this.setup();
+  }
 
-app.use(express.json());
-app.use('/api/v1/users',userRouter)
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
+  private setup(): void {
+    this.app.use(express.json());
+    this.app.use('/api/v1', routes.router);
+  }
+
+  public start(port: number): void {
+    this.app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+    });
+  }
+}
+
+const server = new Server();
+server.start(3000);
 

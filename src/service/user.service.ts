@@ -1,4 +1,4 @@
-import { TestUser, UserCreateAttributes } from '../models/user.model';
+import { User, UserCreateAttributes } from '../models/user.model';
 
 interface UserAttributes {
   userid: number;
@@ -13,13 +13,18 @@ interface UserAttributes {
 
 class UserService {
 
- async  findByPk(arg0: { id: string; }) {
-    throw new Error('Method not implemented.');
+  async findByPk(id: number): Promise<UserAttributes | null> {
+  try {
+      const user = await User.findByPk(id);
+      return user ? user.toJSON() : null; 
+  } catch (error) {
+      throw error;
   }
+}
 
   async findAll(): Promise<UserAttributes[]> {
     try {
-      const data = await TestUser.findAll();
+      const data = await User.findAll();
       return data;
     } catch (error) {
       throw error;
@@ -28,7 +33,7 @@ class UserService {
 
   async create(user: UserCreateAttributes): Promise<UserAttributes> {
     try {
-      const newUser = await TestUser.create(user);
+      const newUser = await User.create(user);
       return newUser;
     } catch (error) {
       console.log(error)
@@ -38,10 +43,10 @@ class UserService {
 
   async updateById(id: number, { pin, email, firstname, lastname, age }: Partial<UserAttributes>): Promise<UserAttributes | null> {
     try {
-      const userToUpdate = await TestUser.findByPk(id);
+      const userToUpdate = await User.findByPk(id);
       if (!userToUpdate) throw new Error('User not found');
 
-      await userToUpdate.update({ pin, email, firstname, lastname, age });
+      await userToUpdate.update({ pin, firstname, lastname, email, age });
       return userToUpdate;
     } catch (error) {
       throw error;
@@ -50,7 +55,7 @@ class UserService {
 
   async deleteById(id: number): Promise<{ message: string }> {
     try {
-      const userToDelete = await TestUser.findByPk(id);
+      const userToDelete = await User.findByPk(id);
       if (!userToDelete) throw new Error('User not found');
 
       await userToDelete.destroy();

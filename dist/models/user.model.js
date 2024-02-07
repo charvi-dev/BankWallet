@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TestUser = void 0;
+exports.User = void 0;
 const sequelize_1 = require("sequelize");
 class User extends sequelize_1.Model {
     static associate(models) {
         // Define associations if needed
     }
 }
-exports.TestUser = User;
+exports.User = User;
 const sequelize = new sequelize_1.Sequelize({
     username: "postgres",
     password: "Asdf!234",
@@ -23,6 +23,7 @@ User.init({
     },
     pin: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: false
     },
     email: {
         type: sequelize_1.DataTypes.STRING,

@@ -44,6 +44,7 @@ User.init({
   },
   pin: {
     type: DataTypes.STRING,
+    allowNull: false
   },
   email: {
     type: DataTypes.STRING,
@@ -72,7 +73,7 @@ User.init({
   freezeTableName: true
 });
 
-export { User as TestUser };
+export { User };
 
 
 

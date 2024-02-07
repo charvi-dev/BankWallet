@@ -11,15 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = require("../models/user.model");
 class UserService {
-    findByPk(arg0) {
+    findByPk(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            throw new Error('Method not implemented.');
+            try {
+                const user = yield user_model_1.User.findByPk(id);
+                return user ? user.toJSON() : null;
+            }
+            catch (error) {
+                throw error;
+            }
         });
     }
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const data = yield user_model_1.TestUser.findAll();
+                const data = yield user_model_1.User.findAll();
                 return data;
             }
             catch (error) {
@@ -30,7 +36,7 @@ class UserService {
     create(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const newUser = yield user_model_1.TestUser.create(user);
+                const newUser = yield user_model_1.User.create(user);
                 return newUser;
             }
             catch (error) {
@@ -42,10 +48,10 @@ class UserService {
     updateById(id, { pin, email, firstname, lastname, age }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userToUpdate = yield user_model_1.TestUser.findByPk(id);
+                const userToUpdate = yield user_model_1.User.findByPk(id);
                 if (!userToUpdate)
                     throw new Error('User not found');
-                yield userToUpdate.update({ pin, email, firstname, lastname, age });
+                yield userToUpdate.update({ pin, firstname, lastname, email, age });
                 return userToUpdate;
             }
             catch (error) {
@@ -56,7 +62,7 @@ class UserService {
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userToDelete = yield user_model_1.TestUser.findByPk(id);
+                const userToDelete = yield user_model_1.User.findByPk(id);
                 if (!userToDelete)
                     throw new Error('User not found');
                 yield userToDelete.destroy();

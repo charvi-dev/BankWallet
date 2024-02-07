@@ -18,7 +18,6 @@ class UserController {
     findAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                // const { id, pin, firstName, lastName, email, age } = req.body;
                 const data = yield user_service_1.default.findAll();
                 res.json({ success: true, data });
             }
@@ -31,8 +30,8 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const data = yield user_service_1.default.findByPk({ id });
-                res.json({ success: true });
+                const data = yield user_service_1.default.findByPk(Number(id));
+                res.json({ success: true, data });
             }
             catch (error) {
                 res.status(500).json({ success: false, message: error === null || error === void 0 ? void 0 : error.message });
@@ -56,8 +55,12 @@ class UserController {
             try {
                 const { id } = req.params;
                 const { pin, firstName, lastName, email, age } = req.body;
-                const data = yield user_service_1.default.updateById(Number(id), { pin, firstname: firstName, lastname: lastName, email, age });
-                res.json({ success: true, data });
+                const updatedUser = yield user_service_1.default.updateById(Number(id), { pin, firstname: firstName, lastname: lastName, email, age });
+                if (!updatedUser) {
+                    res.status(404).json({ success: false, message: 'User not found' });
+                    return;
+                }
+                res.json({ success: true, data: updatedUser });
             }
             catch (error) {
                 res.status(500).json({ success: false, message: error === null || error === void 0 ? void 0 : error.message });
