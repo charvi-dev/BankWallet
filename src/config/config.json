@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Asdf!234",
+    "database": "BANK_USER",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false
+  }
+}
